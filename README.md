@@ -6,4 +6,5 @@ Example:
 
 ## Start
 
-./prometheus_kbot start
+`./prometheus_kbot start
+`
