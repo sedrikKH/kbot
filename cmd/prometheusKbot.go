@@ -4,9 +4,12 @@ Copyright © 2023 Serhii Adamchuk adamchuk.serhii@gmail.com
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -17,6 +20,15 @@ var (
 	//Teletoken bot
 	TeleToken = os.Getenv("TELE_TOKEN")
 )
+
+// Currency struct to represent each currency in the JSON
+type Currency struct {
+	R030         int     `json:"r030"`
+	Txt          string  `json:"txt"`
+	Rate         float64 `json:"rate"`
+	Cc           string  `json:"cc"`
+	ExchangeDate string  `json:"exchangedate"`
+}
 
 // prometheusKbotCmd represents the prometheusKbot command
 var prometheusKbotCmd = &cobra.Command{
@@ -48,29 +60,108 @@ to quickly create a Cobra application.`,
 			log.Print(m.Message().Payload, m.Text())
 			payload := m.Message().Payload
 
-			switch payload {
-			case "hello":
+			switch strings.ToLower(payload) {
+			case "/start", "/hello":
 				err = m.Send(fmt.Sprintf("Hello I'm Prometheus_kbot %s", appVersion))
 
+			case "kurs":
+				err = displayCurrencyList(m)
+				if err != nil {
+					return err
+				}
+
+			default:
+				if strings.HasPrefix(strings.ToLower(payload), "kurs") {
+					currencyCode := strings.TrimSpace(strings.TrimPrefix(strings.ToLower(payload), "kurs"))
+					if currencyCode != "" {
+						err = displayExchangeRate(m, currencyCode)
+						if err != nil {
+							return err
+						}
+					} else {
+						err := m.Send("Please provide a valid currency code after 'kurs', e.g., 'kurs USD'.")
+						if err != nil {
+							return err
+						}
+					}
+				}
 			}
 
 			return err
-
 		})
+
 		prometheusKbot.Start()
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(prometheusKbotCmd)
+}
 
-	// Here you will define your flags and configuration settings.
+func displayCurrencyList(m telebot.Context) error {
+	res, err := http.Get("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json")
+	if err != nil {
+		log.Fatalf("Error", err)
+		return err
+	}
 
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// prometheusKbotCmd.PersistentFlags().String("foo", "", "A help for foo")
+	var currencies []Currency
+	err = json.NewDecoder(res.Body).Decode(&currencies)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
 
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// prometheusKbotCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	var currencyList string
+	for _, currency := range currencies {
+		currencyList += fmt.Sprintf("%s - %s\n", currency.Txt, currency.Cc)
+	}
+
+	err = m.Send("List of available currencies:\n" + currencyList)
+	return err
+}
+
+func displayExchangeRate(m telebot.Context, currencyCode string) error {
+	res, err := http.Get("https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json")
+	if err != nil {
+		log.Fatalf("Error", err)
+		return err
+	}
+
+	var currencies []Currency
+	err = json.NewDecoder(res.Body).Decode(&currencies)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	// If a specific currency code is provided, filter the currencies
+	var filteredCurrencies []Currency
+	for _, c := range currencies {
+		if strings.ToUpper(c.Cc) == strings.ToUpper(currencyCode) {
+			filteredCurrencies = append(filteredCurrencies, c)
+		}
+	}
+	currencies = filteredCurrencies
+
+	if len(currencies) == 0 {
+		err := m.Send(fmt.Sprintf("No exchange rate information found for currency code %s.", currencyCode))
+		if err != nil {
+			return err
+		}
+		return nil
+	}
+
+	for _, currency := range currencies {
+		// Initialize the variables
+		cc := currency.Cc
+		exchangeDate := currency.ExchangeDate
+		rate := currency.Rate
+		err := m.Send(fmt.Sprintf("%s (Code: %s) exchange rate on %s: %.4f\n", currency.Txt, cc, exchangeDate, rate))
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
