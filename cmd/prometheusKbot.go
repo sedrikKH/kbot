@@ -17,7 +17,7 @@ import (
 )
 
 var (
-	//Teletoken bot
+	// Teletoken bot
 	TeleToken = os.Getenv("TELE_TOKEN")
 )
 
@@ -55,6 +55,34 @@ to quickly create a Cobra application.`,
 			return
 		}
 
+		var (
+			btnUSD = telebot.InlineButton{
+				Unique: "usd_button",
+				Text:   "USD",
+			}
+			btnEUR = telebot.InlineButton{
+				Unique: "eur_button",
+				Text:   "EUR",
+			}
+			btnAUD = telebot.InlineButton{
+				Unique: "aud_button",
+				Text:   "AUD",
+			}
+			btnList = telebot.InlineButton{
+				Unique: "list_button",
+				Text:   "List",
+			}
+		)
+
+		buttons := [][]telebot.InlineButton{
+			{btnUSD, btnEUR, btnAUD},
+			{btnList},
+		}
+
+		markup := telebot.ReplyMarkup{
+			InlineKeyboard: buttons,
+		}
+
 		prometheusKbot.Handle(telebot.OnText, func(m telebot.Context) error {
 
 			log.Print(m.Message().Payload, m.Text())
@@ -62,7 +90,7 @@ to quickly create a Cobra application.`,
 
 			switch strings.ToLower(payload) {
 			case "/start", "/hello":
-				err = m.Send(fmt.Sprintf("Hello I'm Prometheus_kbot %s", appVersion))
+				err = m.Send(fmt.Sprintf("Hello I'm Prometheus_kbot %s", appVersion), &markup)
 
 			case "kurs":
 				err = displayCurrencyList(m)
@@ -79,7 +107,7 @@ to quickly create a Cobra application.`,
 							return err
 						}
 					} else {
-						err := m.Send("Please provide a valid currency code after 'kurs', e.g., 'kurs USD'.")
+						err := m.Send("Please provide a valid currency code after 'kurs', e.g., 'kurs USD'.", &markup)
 						if err != nil {
 							return err
 						}
