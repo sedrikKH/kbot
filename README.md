@@ -8,6 +8,12 @@
     export TELE_TOKEN
 ```
 
+## Add tags
+
+```
+git tag -a {тег} -m {комент}
+```
+
 ## Build
 
 Example:
@@ -22,3 +28,4 @@ Example:
 ./prometheus_kbot start
 
 ```
+

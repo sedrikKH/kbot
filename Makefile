@@ -20,6 +20,26 @@ build: format get
 	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o prometheus_kbot -ldflags "-X="hgithub.com/sedrikKH/prometheus_kbot/cmd.appVersion=${VERSION}
 
 
+linux:
+	TARGETOS=linux
+	TARGETARCH=arm64
+	make build
+
+arm:
+	TARGETOS=linux
+	TARGETARCH=arm
+	make build
+
+macos:
+	TARGETOS=darwin
+	TARGETARCH=amd64
+	make build
+
+windows:
+	TARGETOS=windows
+	TARGETARCH=amd64
+	make build
+
 
 image:
 	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
@@ -29,4 +49,4 @@ push:
 
 clean:
 	rm -rf prometheus_kbot 
-	docker rmi ${APP}:${VERSION}-${TARGETARCH}
+	docker rmi ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
