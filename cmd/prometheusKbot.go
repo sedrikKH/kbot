@@ -59,6 +59,7 @@ to quickly create a Cobra application.`,
 			btnUSD = telebot.InlineButton{
 				Unique: "usd_button",
 				Text:   "USD",
+				Data:   "kurs USD",
 			}
 			btnEUR = telebot.InlineButton{
 				Unique: "eur_button",
@@ -83,10 +84,46 @@ to quickly create a Cobra application.`,
 			InlineKeyboard: buttons,
 		}
 
+		prometheusKbot.Handle(&btnUSD, func(m telebot.Context) error {
+			err = displayExchangeRate(m, "USD")
+			if err != nil {
+				return err
+			}
+			return err
+
+		})
+
+		prometheusKbot.Handle(&btnEUR, func(m telebot.Context) error {
+			err = displayExchangeRate(m, "EUR")
+			if err != nil {
+				return err
+			}
+			return err
+
+		})
+
+		prometheusKbot.Handle(&btnAUD, func(m telebot.Context) error {
+			err = displayExchangeRate(m, "AUD")
+			if err != nil {
+				return err
+			}
+			return err
+
+		})
+
+		prometheusKbot.Handle(&btnList, func(m telebot.Context) error {
+			err = displayCurrencyList(m)
+			if err != nil {
+				return err
+			}
+			return err
+
+		})
+
 		prometheusKbot.Handle(telebot.OnText, func(m telebot.Context) error {
 
 			log.Print(m.Message().Payload, m.Text())
-			payload := m.Message().Payload
+			payload := m.Text()
 
 			switch strings.ToLower(payload) {
 			case "/start", "/hello":
