@@ -185,7 +185,7 @@ func displayExchangeRate(m telebot.Context, currencyCode string) error {
 		cc := currency.Cc
 		exchangeDate := currency.ExchangeDate
 		rate := currency.Rate
-		err := m.Send(fmt.Sprintf("%s (Code: %s) exchange rate on %s: %.4f\n", currency.Txt, cc, exchangeDate, rate))
+		err := m.Send(fmt.Sprintf("Валюта %s (Код валюти: %s) курс обміну на %s:\n %.2f грн за 1 %s", currency.Txt, cc, exchangeDate, rate, cc))
 		if err != nil {
 			return err
 		}
