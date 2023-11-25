@@ -30,6 +30,35 @@ type Currency struct {
 	ExchangeDate string  `json:"exchangedate"`
 }
 
+var (
+	btnUSD = telebot.InlineButton{
+		Unique: "usd_button",
+		Text:   "USD",
+		Data:   "kurs USD",
+	}
+	btnEUR = telebot.InlineButton{
+		Unique: "eur_button",
+		Text:   "EUR",
+	}
+	btnAUD = telebot.InlineButton{
+		Unique: "aud_button",
+		Text:   "AUD",
+	}
+	btnList = telebot.InlineButton{
+		Unique: "list_button",
+		Text:   "List",
+	}
+)
+
+var buttons = [][]telebot.InlineButton{
+	{btnUSD, btnEUR, btnAUD},
+	{btnList},
+}
+
+var markup = telebot.ReplyMarkup{
+	InlineKeyboard: buttons,
+}
+
 // prometheusKbotCmd represents the prometheusKbot command
 var prometheusKbotCmd = &cobra.Command{
 	Use:     "prometheusKbot",
@@ -53,35 +82,6 @@ to quickly create a Cobra application.`,
 		if err != nil {
 			log.Fatalf("Please check TELE_TOKEN env variable. %s", err)
 			return
-		}
-
-		var (
-			btnUSD = telebot.InlineButton{
-				Unique: "usd_button",
-				Text:   "USD",
-				Data:   "kurs USD",
-			}
-			btnEUR = telebot.InlineButton{
-				Unique: "eur_button",
-				Text:   "EUR",
-			}
-			btnAUD = telebot.InlineButton{
-				Unique: "aud_button",
-				Text:   "AUD",
-			}
-			btnList = telebot.InlineButton{
-				Unique: "list_button",
-				Text:   "List",
-			}
-		)
-
-		buttons := [][]telebot.InlineButton{
-			{btnUSD, btnEUR, btnAUD},
-			{btnList},
-		}
-
-		markup := telebot.ReplyMarkup{
-			InlineKeyboard: buttons,
 		}
 
 		prometheusKbot.Handle(&btnUSD, func(m telebot.Context) error {
@@ -182,7 +182,7 @@ func displayCurrencyList(m telebot.Context) error {
 		currencyList += fmt.Sprintf("%s - %s\n", currency.Txt, currency.Cc)
 	}
 
-	err = m.Send("List of available currencies:\n" + currencyList)
+	err = m.Send("List of available currencies:\n"+currencyList, &markup)
 	return err
 }
 
@@ -210,7 +210,7 @@ func displayExchangeRate(m telebot.Context, currencyCode string) error {
 	currencies = filteredCurrencies
 
 	if len(currencies) == 0 {
-		err := m.Send(fmt.Sprintf("No exchange rate information found for currency code %s.", currencyCode))
+		err := m.Send(fmt.Sprintf("No exchange rate information found for currency code %s.", currencyCode), &markup)
 		if err != nil {
 			return err
 		}
@@ -222,7 +222,7 @@ func displayExchangeRate(m telebot.Context, currencyCode string) error {
 		cc := currency.Cc
 		exchangeDate := currency.ExchangeDate
 		rate := currency.Rate
-		err := m.Send(fmt.Sprintf("Валюта %s (Код валюти: %s) курс обміну на %s:\n %.2f грн за 1 %s", currency.Txt, cc, exchangeDate, rate, cc))
+		err := m.Send(fmt.Sprintf("Валюта **%s** (Код валюти: %s) \nкурс обміну на %s: **%.2f** грн за 1 %s", currency.Txt, cc, exchangeDate, rate, cc), &markup)
 		if err != nil {
 			return err
 		}
