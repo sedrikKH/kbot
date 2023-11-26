@@ -3,6 +3,7 @@ WORKDIR /go/src/app
 COPY . .
 RUN make build
 
+
 FROM scratch
 WORKDIR /
 COPY --from=builder /go/src/app/prometheus_kbot .
