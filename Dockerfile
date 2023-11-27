@@ -6,6 +6,9 @@ RUN make build
 
 FROM scratch
 WORKDIR /
+
+ARG BOT_TOKEN
+ENV TELE_TOKEN=$BOT_TOKEN
 COPY --from=builder /go/src/app/prometheus_kbot .
 COPY --from=alpine:latest /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 ENTRYPOINT ["./prometheus_kbot"]

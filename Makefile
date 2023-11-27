@@ -42,7 +42,7 @@ windows:
 
 
 image:
-	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}-${TARGETARCH}
+	docker build --build-arg BOT_TOKEN=${TELE_TOKEN} . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}-${TARGETARCH}
 
 push:
 	docker push ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}-${TARGETARCH}
