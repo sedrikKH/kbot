@@ -43,11 +43,11 @@ windows:
 
 image:
 # --build-arg BOT_TOKEN=${TELE_TOKEN}
-	docker build  . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}-${TARGETARCH}
+	docker build  . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
 
 push:
-	docker push ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}-${TARGETARCH}
+	docker push ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
 
 clean:
 	rm -rf prometheus_kbot 
-	docker rmi ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}-${TARGETARCH}
+	docker rmi ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
