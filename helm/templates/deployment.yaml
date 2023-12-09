@@ -35,6 +35,12 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          env:
+          - name: TELE_TOKEN
+            valueFROM:
+              ceretKeyRef:
+                key: token
+                name: kbot
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
