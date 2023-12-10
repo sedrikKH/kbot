@@ -59,9 +59,9 @@ var markup = telebot.ReplyMarkup{
 	InlineKeyboard: buttons,
 }
 
-// prometheusKbotCmd represents the prometheusKbot command
-var prometheusKbotCmd = &cobra.Command{
-	Use:     "prometheusKbot",
+// kbotCmd represents the kbot command
+var kbotCmd = &cobra.Command{
+	Use:     "kbot",
 	Aliases: []string{"start"},
 	Short:   "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
@@ -73,7 +73,7 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		fmt.Printf("kbot %s started", appVersion)
-		prometheusKbot, err := telebot.NewBot(telebot.Settings{
+		kbot, err := telebot.NewBot(telebot.Settings{
 			URL:    "",
 			Token:  TeleToken,
 			Poller: &telebot.LongPoller{Timeout: 10 * time.Second},
@@ -84,7 +84,7 @@ to quickly create a Cobra application.`,
 			return
 		}
 
-		prometheusKbot.Handle(&btnUSD, func(m telebot.Context) error {
+		kbot.Handle(&btnUSD, func(m telebot.Context) error {
 			err = displayExchangeRate(m, "USD")
 			if err != nil {
 				return err
@@ -93,7 +93,7 @@ to quickly create a Cobra application.`,
 
 		})
 
-		prometheusKbot.Handle(&btnEUR, func(m telebot.Context) error {
+		kbot.Handle(&btnEUR, func(m telebot.Context) error {
 			err = displayExchangeRate(m, "EUR")
 			if err != nil {
 				return err
@@ -102,7 +102,7 @@ to quickly create a Cobra application.`,
 
 		})
 
-		prometheusKbot.Handle(&btnAUD, func(m telebot.Context) error {
+		kbot.Handle(&btnAUD, func(m telebot.Context) error {
 			err = displayExchangeRate(m, "AUD")
 			if err != nil {
 				return err
@@ -111,7 +111,7 @@ to quickly create a Cobra application.`,
 
 		})
 
-		prometheusKbot.Handle(&btnList, func(m telebot.Context) error {
+		kbot.Handle(&btnList, func(m telebot.Context) error {
 			err = displayCurrencyList(m)
 			if err != nil {
 				return err
@@ -120,14 +120,14 @@ to quickly create a Cobra application.`,
 
 		})
 
-		prometheusKbot.Handle(telebot.OnText, func(m telebot.Context) error {
+		kbot.Handle(telebot.OnText, func(m telebot.Context) error {
 
 			log.Print(m.Message().Payload, m.Text())
 			payload := m.Text()
 
 			switch strings.ToLower(payload) {
 			case "/start", "/hello":
-				err = m.Send(fmt.Sprintf("Hello I'm Prometheus_kbot %s", appVersion), &markup)
+				err = m.Send(fmt.Sprintf("Hello I'm kbot %s", appVersion), &markup)
 
 			case "kurs":
 				err = displayCurrencyList(m)
@@ -155,12 +155,12 @@ to quickly create a Cobra application.`,
 			return err
 		})
 
-		prometheusKbot.Start()
+		kbot.Start()
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(prometheusKbotCmd)
+	rootCmd.AddCommand(kbotCmd)
 }
 
 func displayCurrencyList(m telebot.Context) error {

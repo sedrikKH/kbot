@@ -1,4 +1,4 @@
-module hgithub.com/sedrikKH/prometheus_kbot
+module hgithub.com/sedrikKH/kbot
 
 go 1.20
 

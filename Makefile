@@ -17,7 +17,7 @@ get:
 	go get
 
 build: format get
-	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o prometheus_kbot -ldflags "-X="hgithub.com/sedrikKH/prometheus_kbot/cmd.appVersion=${VERSION}
+	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X="hgithub.com/sedrikKH/kbot/cmd.appVersion=${VERSION}
 
 
 linux:
@@ -49,5 +49,5 @@ push:
 	docker push ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
 
 clean:
-	rm -rf prometheus_kbot 
+	rm -rf kbot 
 	docker rmi ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
