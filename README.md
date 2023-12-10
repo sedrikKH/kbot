@@ -29,3 +29,5 @@ Example:
 
 ```
 
+kubectl create secret generic kbot --from-literal=token="6978966685:AAFgwhsw56AU2AGDBek74Exg0m94V4ANy60"
+
