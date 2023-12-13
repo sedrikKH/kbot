@@ -3,18 +3,15 @@
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
-
 image:
   repository: sedrikkh
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.0.7-7b5b119"
+  tag: "v1.0.7-0dff87f"
   arch: amd64
-
 secret:
   name: "kbot"
   key: "token"
   env: "TELE_TOKEN"
 securityContext:
   privileged: true
-
