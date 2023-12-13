@@ -36,12 +36,12 @@ jobs:
 
         steps:
         
-        - uses: action/checkout@v3
+        - uses: actions/checkout@v3
           with:
             fetch-depth: 0
         - run: echo "VERSION=$(git describe --tags --abbrev=0)-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
-        - uses: mikefarah/yg@maste
+        - uses: mikefarah/yq@master
           with:
             cmd: yq -i '.image.tag=strenv(VERSION)' helm/values.yaml
 
