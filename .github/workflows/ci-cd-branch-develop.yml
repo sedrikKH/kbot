@@ -62,4 +62,4 @@ jobs:
         git commit -am "update version $VERSION"
         git push
     
-
+    - run: helm package ./helm
