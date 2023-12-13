@@ -7,7 +7,7 @@ image:
   repository: sedrikkh
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.0.7-902ef7a"
+  tag: "v1.0.7-fd0804c"
   arch: amd64
 secret:
   name: "kbot"
