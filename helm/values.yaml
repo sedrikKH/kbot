@@ -8,7 +8,7 @@ image:
   repository: sedrikkh
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1.0.7-b153d17"
+  tag: "v1.0.7-fe0dedd"
   os: linux
   arch: amd64
 secret:
