@@ -4,10 +4,12 @@
 
 replicaCount: 1
 image:
+  registry: "ghcr.io"
   repository: sedrikkh
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "v1.0.7-b153d17"
+  os: linux
   arch: amd64
 secret:
   name: "kbot"
