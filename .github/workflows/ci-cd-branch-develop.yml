@@ -61,8 +61,3 @@ jobs:
         git config user.email github-actions@github.com
         git commit -am "update version $VERSION"
         git push
-    
-    - run: |
-        helm package ./helm
-        git commit -am "update helm-package"
-        git push
