@@ -1,4 +1,6 @@
-# prometheus_kbot
+# kbot
+
+![alt text](/img/kbot%20workflow-Page-2.drawio.png)
 
 ## TELE_TOKEN
 
