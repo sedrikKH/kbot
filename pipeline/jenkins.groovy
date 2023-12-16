@@ -29,8 +29,8 @@ pipeline {
         
         stage('build') {
             steps {
-                echo 'BUILD EXECUTION STARTED'
-                sh 'make build TARGETOS=${params.OS} TARGETARCH=${params.ARCH}'
+                echo "Build for platform ${params.OS}  and ${params.ARCH} "
+                sh "make build TARGETOS=${params.OS} TARGETARCH=${params.ARCH}"
             }
         }
         
@@ -38,7 +38,7 @@ pipeline {
             steps {
                 script {
                     echo 'IMAGE CREATED STARTED'
-                    sh 'make image-${params.OS} ${params.ARCH}'
+                    sh "make image TARGETOS=${params.OS} TARGETARCH=${params.ARCH}"
                 }
             }
         }
@@ -47,7 +47,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('', 'dockerhub'){
-                    sh 'make push'    
+                    sh "make push TARGETOS=${params.OS} TARGETARCH=${params.ARCH}"
                     }
                 }
             }
