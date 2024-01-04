@@ -58,7 +58,7 @@ jobs:
     
     - uses: mikefarah/yq@master
       with:
-        cmd: yq -i '.version = (.version | split(".") | map(tonumber) | .[1] += 1 | join("."))' helm/Chart.yaml
+        cmd: yq -i '.version = (.version | split(".") | map(tonumber) | .[2] += 1 | join("."))' helm/Chart.yaml
         
     - run: |
         git config user.name github-actions
