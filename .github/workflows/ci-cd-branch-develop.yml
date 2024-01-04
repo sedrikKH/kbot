@@ -55,6 +55,7 @@ jobs:
     - uses: mikefarah/yq@master
       with:
         cmd: yq -i '.image.tag=strenv(VERSION) | .image.arch=strenv(TARGETARCH) | .image.os=strenv(TARGETOS)' helm/values.yaml
+        cmd: yq eval '.version = (split(".") | .[0] | tonumber) as $major | .[1] | tonumber as $minor | .[2] | tonumber as $patch | "$major"."$minor"."($patch + 1)"' chart.yaml -i
         
     - run: |
         git config user.name github-actions
