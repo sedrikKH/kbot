@@ -58,7 +58,7 @@ jobs:
     
     - uses: mikefarah/yq@master
       with:
-        cmd: yq eval '.version = (split(".") | .[0] | tonumber) as $major | .[1] | tonumber as $minor | .[2] | tonumber as $patch | "$major"."$minor"."($patch + 1)"' chart.yaml -i
+        cmd: yq eval '.version = (split(".") | .[0] | tonumber) as $major | .[1] | tonumber as $minor | .[2] | tonumber as $patch | "$major"."$minor"."($patch + 1)"' helm/Chart.yaml -i
         
     - run: |
         git config user.name github-actions
