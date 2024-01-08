@@ -1,4 +1,4 @@
-module hgithub.com/sedrikKH/kbot
+module github.com/sedrikKH/kbot
 
 go 1.20
 

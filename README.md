@@ -1,4 +1,6 @@
-# prometheus_kbot
+# kbot
+
+![alt text](/img/kbot%20workflow-Page-2.drawio.png)
 
 ## TELE_TOKEN
 
@@ -7,7 +9,6 @@
     echo $TELE_TOKEN
     export TELE_TOKEN
 ```
-
 ## Add tags
 
 ```
@@ -29,5 +30,10 @@ Example:
 
 ```
 
-kubectl create secret generic kbot --from-literal=token="6978966685:AAFgwhsw56AU2AGDBek74Exg0m94V4ANy60"
+
+
+
+
+
+
 
