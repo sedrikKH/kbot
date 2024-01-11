@@ -79,7 +79,7 @@ fi
 cd .. 
 rm -rf gitleaks
 
-
+echo "git config --global --add gitleaks.enabled true"
 git config --global --add gitleaks.enabled true
 $HOME/.local/bin/pre-commit install
 
