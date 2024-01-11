@@ -1,6 +1,7 @@
 package main
 
-import (  
+import (
+	"fmt"  
     "os/exec"
     "runtime"
 )
@@ -33,11 +34,37 @@ func installGitleaks() {
     }
 }
 
+func checkLastCommit() {
+
+	GITLEAKS_REPORT:= "report.json"
+    GITLEAKS_OPTS:= "detect --redact -v"
+	GITLEAKS_GIT_LOGS:= "HEAD~1^..HEAD"
+
+
+    out, err := exec.Command("gitleaks", GITLEAKS_OPTS, GITLEAKS_REPORT, GITLEAKS_GIT_LOGS).Output()
+
+    if err != nil {
+        //panic(
+		fmt.Println(err)
+    }
+    
+    if string(out) != "" {
+        // найдены секреты - откатываем коммит
+        exec.Command("git", "reset", "HEAD~1").Run() 
+    } else {
+        // принимаем коммит, если чистый 
+        fmt.Println("No secrets found, automatically accepting commit.")        
+        exec.Command("git", "commit", "--amend", "--no-edit").Run()
+        exec.Command("git", "push").Run()
+    }   
+}
+
 func main() {
 
     installGitleaks() 
+
+	checkLastCommit()
     
-    // дальнейшая работа с gitleaks   
 }
 
 

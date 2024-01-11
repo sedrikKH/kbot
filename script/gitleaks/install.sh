@@ -24,15 +24,6 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     sudo brew install git make pip3
   fi
 
-elif [[ "$OSTYPE" = "cygwin" ]] || [[ "$OSTYPE" = "msys" ]] || [[ "$OSTYPE" = "win32" ]]; then
-
-  # Установка утилит на Windows
-  echo "Installing utilities for Windows"
-
-  choco install -y git make wget unzip python pip
-
-  refreshenv
-
 else
 
   echo "Unsupported OS"
@@ -62,14 +53,6 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
   make build
   gitleaks version
   
-elif [[ "$OSTYPE" == "cygwin" ]]; then
-
-  # Windows
-  git clone https://github.com/gitleaks/gitleaks.git
-  cd gitleaks
-  go build
-  Move-Item -Path gitleaks.exe -Destination C:\gitleaks\
-
 else
   echo "Unknown OS"
   exit 1  
