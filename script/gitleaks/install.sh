@@ -42,6 +42,8 @@ fi
 
 pip install pre-commit
 
+$HOME/.local/bin/pre-commit install
+
 # Далее установка...
 
 git clone https://github.com/gitleaks/gitleaks.git
