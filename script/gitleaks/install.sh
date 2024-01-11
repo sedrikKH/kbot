@@ -42,17 +42,44 @@ fi
 
 pip install pre-commit
 
-$HOME/.local/bin/pre-commit install
-
 # Далее установка...
 
-git clone https://github.com/gitleaks/gitleaks.git
-cd gitleaks
-make build
-sudo cp gitleaks /usr/local/bin  
-sudo chmod +x /usr/local/bin/gitleaks
-gitleaks --version
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+
+  # Linux
+  git clone https://github.com/gitleaks/gitleaks.git
+  cd gitleaks
+  make build
+  sudo cp gitleaks /usr/local/bin  
+  sudo chmod +x /usr/local/bin/gitleaks
+  gitleaks version
+
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+
+  # MacOS  
+  git clone https://github.com/gitleaks/gitleaks.git
+  cd gitleaks
+  make build
+  gitleaks version
+  
+elif [[ "$OSTYPE" == "cygwin" ]]; then
+
+  # Windows
+  git clone https://github.com/gitleaks/gitleaks.git
+  cd gitleaks
+  go build
+  Move-Item -Path gitleaks.exe -Destination C:\gitleaks\
+
+else
+  echo "Unknown OS"
+  exit 1  
+fi
 
 # Cleanup
 cd .. 
 rm -rf gitleaks
+
+
+git config --global --add gitleaks.enabled true
+$HOME/.local/bin/pre-commit install
+
