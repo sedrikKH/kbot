@@ -6,13 +6,14 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   # Ubuntu/Debian
   if [[ -f /etc/debian_version ]]; then
     sudo apt update 
-    sudo apt install -y git make 
+    sudo apt install -y git make python3-pip
+
   fi
   
   # CentOS/RHEL
   if [[ -f /etc/redhat-release ]]; then
     sudo yum update 
-    sudo yum install -y git make 
+    sudo yum install -y git make python3-pip
   fi
 
 elif [[ "$OSTYPE" == "darwin"* ]]; then
@@ -20,7 +21,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
   # Mac OS
   if [[ -f /System/Library/CoreServices/SystemVersion.plist ]]; then
     sudo brew update
-    sudo brew install git make 
+    sudo brew install git make pip3
   fi
 
 elif [[ "$OSTYPE" = "cygwin" ]] || [[ "$OSTYPE" = "msys" ]] || [[ "$OSTYPE" = "win32" ]]; then
@@ -28,7 +29,7 @@ elif [[ "$OSTYPE" = "cygwin" ]] || [[ "$OSTYPE" = "msys" ]] || [[ "$OSTYPE" = "w
   # Установка утилит на Windows
   echo "Installing utilities for Windows"
 
-  choco install -y git make wget unzip
+  choco install -y git make wget unzip python pip
 
   refreshenv
 
@@ -38,6 +39,8 @@ else
   exit 1
 
 fi
+
+pip install pre-commit
 
 # Далее установка...
 
