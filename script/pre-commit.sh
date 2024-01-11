@@ -17,7 +17,9 @@ GITLEAKS_REPORT="report.json"
 GITLEAKS_OPTS="--redact -v"
 GITLEAKS_GIT_LOGS="HEAD~1..HEAD"
 
-gitleaks $GITLEAKS_OPTS $GITLEAKS_REPORT $GITLEAKS_GIT_LOGS
+#gitleaks detect --redact -v --report-path report.json --log-opts="HEAD~1..HEAD"
+gitleaks detect  $GITLEAKS_OPTS --report-path $GITLEAKS_REPORT --log-opts="$GITLEAKS_GIT_LOGS"
+
 
 if [ $? -eq 0 ]; then
   echo "No secrets found, automatically accepting commit"
