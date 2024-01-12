@@ -39,7 +39,8 @@ chmod 777 ./.git/hooks/pre-commit
 ## Тестовий приклад
 
 ```
-
+git add .
+git commit -m "Test commit"
 ```
 
 
