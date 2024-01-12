@@ -3,7 +3,7 @@ name: KBOT-CICD-DEVELOP
 on: 
   push:
     branches:
-      - develop
+      - main
 
 env:
   TARGETARCH: amd64
