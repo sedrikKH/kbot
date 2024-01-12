@@ -4,7 +4,7 @@
 
 реалізований pre-commit hook скрипт з автоматичним встановленням gitleaks залежно від операційної системи, з опцією enable за допомогою git config та інсталяцією за методом “curl pipe sh” (задача делегована junior та middle інженерам )
 
-Метод інсталяції був реалізовний інженерами :-)
+**Метод інсталяції був реалізовний junior та middle інженерами :-)**
 
 Для ОС Linux - файл /script/gitleaks/install.sh 
  
@@ -42,6 +42,29 @@ chmod 777 ./.git/hooks/pre-commit
 git add .
 git commit -m "Test commit"
 ```
+
+Якщо в системі вже встановлений Gitleaks вивід буде наступним
+
+```
+git add .
+git commit -m "Test commit"
+
+
+    ○
+    │╲
+    │ ○
+    ○ ░
+    ░    gitleaks
+
+9:42PM INF 1 commits scanned.
+9:42PM INF scan completed in 8.48ms
+9:42PM INF no leaks found
+No secrets found, automatically accepting commit
+Everything up-to-date
+[main cc49737] Test commit
+ 1 file changed, 1 insertion(+)
+```
+
 
 
 
