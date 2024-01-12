@@ -2,7 +2,7 @@
 
 ## Задача 8.1
 
-реалізований pre-commit hook скрипт з автоматичним встановленням gitleaks залежно від операційної системи, з опцією enable за допомогою git config та інсталяцією за методом “curl pipe sh” (задача делегована junior та middle інженерам )
+Реалізований pre-commit hook скрипт з автоматичним встановленням gitleaks залежно від операційної системи, з опцією enable за допомогою git config та інсталяцією за методом “curl pipe sh” (задача делегована junior та middle інженерам )
 
 **Метод інсталяції був реалізовний junior та middle інженерами :-)**
 
@@ -65,8 +65,36 @@ Everything up-to-date
  1 file changed, 1 insertion(+)
 ```
 
+**Якщо додати файл з токеном у каталог проекту та зробити комміт Gitleaks видаст помилку**
 
+```
+git commit -m "Test commit1"
 
+    ○
+    │╲
+    │ ○
+    ○ ░
+    ░    gitleaks
+
+Finding:     ...-from-literal=token="REDACTED"
+Secret:      REDACTED
+RuleID:      telegram-bot-api-token
+Entropy:     4.466406
+File:        secrets.yaml
+Line:        1
+Commit:      43e2b0c6cb4aa121f5b74f8267034cde67ef5a02
+Author:      Sergiy
+Email:       ada*********gmail.com
+Date:        2024-01-12T21:48:40Z
+Fingerprint: 43e2b0c6cb4aa121f5b74f8267034cde67ef5a02:secrets.yaml:telegram-bot-api-token:1
+
+9:49PM INF 1 commits scanned.
+9:49PM INF scan completed in 7.75ms
+9:49PM WRN leaks found: 1
+Secrets found, reverting commit
+```
+
+## Task 8.1 Done!
 
 
 
