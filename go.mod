@@ -4,6 +4,8 @@ go 1.20
 
 require (
 	github.com/spf13/cobra v1.8.0
+	go.opentelemetry.io/otel/sdk v1.22.0
+	go.opentelemetry.io/otel/sdk/metric v1.22.0
 	gopkg.in/telebot.v3 v3.1.4
 )
 
@@ -15,8 +17,6 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.16.0 // indirect
 	github.com/rs/zerolog v1.20.0 // indirect
 	go.opentelemetry.io/otel/metric v1.22.0 // indirect
-	go.opentelemetry.io/otel/sdk v1.22.0 // indirect
-	go.opentelemetry.io/otel/sdk/metric v1.22.0 // indirect
 	go.opentelemetry.io/otel/trace v1.22.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.0.0 // indirect
 	golang.org/x/net v0.17.0 // indirect

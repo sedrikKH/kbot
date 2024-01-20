@@ -70,7 +70,6 @@ var markup = telebot.ReplyMarkup{
 	InlineKeyboard: buttons,
 }
 
-
 // Initialize OpenTelemetry
 func initMetrics(ctx context.Context) {
 
@@ -102,7 +101,6 @@ func initMetrics(ctx context.Context) {
 
 }
 
-
 func pmetrics(ctx context.Context, payload string) {
 	// Get the global MeterProvider and create a new Meter with the name "kbot_light_signal_counter"
 	meter := otel.GetMeterProvider().Meter("kbot_light_signal_counter")
@@ -113,7 +111,6 @@ func pmetrics(ctx context.Context, payload string) {
 	// Add a value of 1 to the Int64Counter
 	counter.Add(ctx, 1)
 }
-
 
 // kbotCmd represents the kbot command
 var kbotCmd = &cobra.Command{
@@ -183,12 +180,10 @@ to quickly create a Cobra application.`,
 		kbot.Handle(telebot.OnText, func(m telebot.Context) error {
 			logger.Info().Str("Payload", m.Text()).Msg(m.Message().Payload)
 
-
 			log.Print(m.Message().Payload, m.Text())
 			payload := m.Message().Payload
 			//payload := m.Text()
 			pmetrics(context.Background(), payload)
-			
 
 			switch strings.ToLower(payload) {
 			case "/start", "/hello":
