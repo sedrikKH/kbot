@@ -1,5 +1,5 @@
 /*
-Copyright © 2023 Serhii Adamchuk adamchuk.serhii@gmail.com
+Copyright © 2023 Serhii Adamchuk adamchuk.serg@gmail.com
 */
 package cmd
 
@@ -103,10 +103,10 @@ func initMetrics(ctx context.Context) {
 
 func pmetrics(ctx context.Context, payload string) {
 	// Get the global MeterProvider and create a new Meter with the name "kbot_light_signal_counter"
-	meter := otel.GetMeterProvider().Meter("kbot_light_signal_counter")
+	meter := otel.GetMeterProvider().Meter("kbot_currency_counter")
 
 	// Get or create an Int64Counter instrument with the name "kbot_light_signal_<payload>"
-	counter, _ := meter.Int64Counter(fmt.Sprintf("kbot_light_signal_%s", payload))
+	counter, _ := meter.Int64Counter(fmt.Sprintf("kbot_currency_%s", payload))
 
 	// Add a value of 1 to the Int64Counter
 	counter.Add(ctx, 1)
@@ -181,8 +181,8 @@ to quickly create a Cobra application.`,
 			logger.Info().Str("Payload", m.Text()).Msg(m.Message().Payload)
 
 			log.Print(m.Message().Payload, m.Text())
-			payload := m.Message().Payload
-			//payload := m.Text()
+			//payload := m.Message().Payload
+			payload := m.Text()
 			pmetrics(context.Background(), payload)
 
 			switch strings.ToLower(payload) {
@@ -220,6 +220,8 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
+	ctx := context.Background()
+	initMetrics(ctx)
 	rootCmd.AddCommand(kbotCmd)
 }
 

@@ -3,7 +3,8 @@ services:
 
   # Kbot
   kbot:
-    image: denvasyliev/kbot:v1.0.0-otel
+    image: ghcr.io/sedrikkh/kbot.git:v1.0.7-3db997f-linux-amd64
+    #denvasyliev/kbot:v1.0.0-otel
     environment:
       - METRICS_HOST=collector:4317
       - TELE_TOKEN=${TELE_TOKEN}
